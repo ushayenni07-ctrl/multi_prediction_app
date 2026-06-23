@@ -7,16 +7,12 @@ import pickle
 import numpy as np
 import streamlit as st
 from streamlit_option_menu import option_menu
+diabetes_model = pickle.load(open('trained_model.sav', 'rb'))
 
-# Load models
-diabetes_model = pickle.load(open(
-    'C:/Users/Usha/OneDrive/Documents/OneDrive/Documents/multiplepreiction/savedmodels/trained_model.sav','rb'))
-breast_cancer_model = pickle.load(open(
-    'C:/Users/Usha/OneDrive/Documents/OneDrive/Documents/multiplepreiction/savedmodels/breastcancerclassifier.sav','rb'))
-heart_disease_model = pickle.load(open(
-    'C:/Users/Usha/OneDrive/Documents/OneDrive/Documents/multiplepreiction/savedmodels/heart_disease.sav','rb'))
+breast_cancer_model = pickle.load(open('breastcancerclassifier.sav', 'rb'))
 
-# Sidebar menu
+heart_disease_model = pickle.load(open('heart_disease.sav', 'rb'))
+
 with st.sidebar:
     selected = option_menu(
         'Multiple Prediction System',
@@ -24,7 +20,6 @@ with st.sidebar:
         default_index=0
     )
 
-# ---------------- Diabetes Page ----------------
 if selected == 'Diabetes Prediction':
     st.title("Diabetes Prediction")
 
@@ -45,7 +40,7 @@ if selected == 'Diabetes Prediction':
         prediction = diabetes_model.predict(input_array)
         st.success("Diabetic" if prediction[0] == 1 else "Not Diabetic")
 
-# ---------------- Breast Cancer Page ----------------
+
 elif selected == 'Breast Cancer Prediction':
     st.title("Breast Cancer Prediction")
 
@@ -63,9 +58,7 @@ elif selected == 'Breast Cancer Prediction':
                       float(mean_smoothness)] + [0]*25
         input_array = np.asarray(input_data).reshape(1,-1)
         prediction = breast_cancer_model.predict(input_array)
-        st.success("Malignant" if prediction[0] == 0 else "Benign")
 
-# ---------------- Heart Disease Page ----------------
 elif selected == 'Heart Disease Prediction':
     st.title("Heart Disease Prediction")
 
